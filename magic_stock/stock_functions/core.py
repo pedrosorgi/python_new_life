@@ -60,20 +60,10 @@ def update_quantity(product_list):
             print('Invalid input option. Please enter a valid card number.')
             continue
     
-    # Ask the quantity of cards to update and validate the input
-    while True:
-        updated_card_quantity = input('Enter the quantity of cards to be updated: ')
-        try:
-            updated_card_quantity_int = int(updated_card_quantity)
-            break
-        except ValueError:
-            print('Invalid input option. Please enter a valid quantity number.')
-            continue
-    
-    # Ask for add or remove cards and validate the 
+    # Ask for add or remove cards and validate the input
     while True:
         update_type = input('Do you want to add or remove cards? (a/r): ').upper()
-        if update_type not in ('A', 'D'):
+        if update_type not in ('A', 'R'):
             print("Invalid input option. Please enter 'a' to add or 'r' to remove.")
             continue
         elif len(update_type) > 1:
@@ -82,17 +72,33 @@ def update_quantity(product_list):
         else:
             break
 
-    # Adding cards
-    if update_type == 'A':
-        product_list[updated_card_int]['quantity'] += updated_card_quantity_int
-        print(f"{updated_card_quantity_int} card(s) added to {product_list[updated_card_int]['name']}.")
-        print(f"Total: {product_list[updated_card_int]['quantity']} cards.")
+    # Ask the quantity of cards to update and validate the input
+    while True:
+        updated_card_quantity = input('Enter the quantity of cards to be updated: ')
+        try:
+            updated_card_quantity_int = int(updated_card_quantity)
+        except ValueError:
+            print('Invalid input option. Please enter a valid quantity number.')
+            continue
+    
+        # Adding cards
+        if update_type == 'A':
+            product_list[updated_card_int]['quantity'] += updated_card_quantity_int
+            print(f"{updated_card_quantity_int} card(s) added to {product_list[updated_card_int]['name']}.")
+            print(f"Total: {product_list[updated_card_int]['quantity']} cards.")
+            break
 
-    # Removing cards
-    elif update_type == 'R':
-        product_list[updated_card_int]['quantity'] -= updated_card_quantity_int
-        print(f"{updated_card_quantity_int} card(s) removed from {product_list[updated_card_int]['name']}.")
-        print(f"Total: {product_list[updated_card_int]['quantity']} cards.")
+        # Removing cards and validate the input
+        elif update_type == 'R':
+            if product_list[updated_card_int]['quantity'] - updated_card_quantity_int >= 0:
+                product_list[updated_card_int]['quantity'] -= updated_card_quantity_int
+                print(f"{updated_card_quantity_int} card(s) removed from {product_list[updated_card_int]['name']}.")
+                print(f"Total: {product_list[updated_card_int]['quantity']} cards.")
+                break
+            else:
+                print("Product quantity can't be negative. Please try again.")
+                continue
+            
 
 
 
